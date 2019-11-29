@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     Map<String, String> platformInfo = new Map();
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      Map<dynamic, dynamic> platformInfoTmp = await DeviceInfoPlugin.platformVersion;
+      Map<dynamic, dynamic> platformInfoTmp = await DTPlaformInfoPlugin.dtPlaformInfoPlugin;
       platformInfoTmp.forEach((key, value){
         platformInfo.putIfAbsent(key, ()=>value);
       });
