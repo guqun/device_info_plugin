@@ -1,6 +1,7 @@
 package com.dogtogether.device_info_plugin;
 
 import android.os.Build;
+import android.os.Environment;
 import android.util.ArrayMap;
 
 import java.util.Map;
@@ -15,13 +16,22 @@ public class DeviceInfoPlugin implements MethodChannel.MethodCallHandler {
     public static void registerWith(PluginRegistry.Registrar registrar) {
       MethodChannel channel = new MethodChannel(registrar.messenger(), "dt_platform_info_plugin");
       channel.setMethodCallHandler(new DeviceInfoPlugin());
+
+
+      MethodChannel storageDirectoryChannel = new MethodChannel(registrar.messenger(), "dt_storage_directory_plugin");
+      storageDirectoryChannel.setMethodCallHandler(new DeviceInfoPlugin());
     }
 
   @Override
   public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
     if (methodCall.method.equals("getDTPlatformInfo")) {
       result.success(getDeviceInfo());
-    } else {
+    }
+    else if(methodCall.method.equals("getDTStorageDirectory"))
+    {
+      result.success(Environment.getExternalStorageDirectory().getAbsolutePath());
+    }
+    else {
       result.notImplemented();
     }
   }

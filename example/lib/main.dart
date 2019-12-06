@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Map<String, String> _platformInfo;
+  String _storageDirectory = "";
 
   @override
   void initState() {
@@ -29,8 +30,10 @@ class _MyAppState extends State<MyApp> {
       platformInfoTmp.forEach((key, value){
         platformInfo.putIfAbsent(key, ()=>value);
       });
+      _storageDirectory = await DTPlaformInfoPlugin.dtStorageDirectoryPlugin;
     } on PlatformException {
       platformInfo = Map();
+      _storageDirectory = "error-storage_directory";
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -51,7 +54,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: \n' + _platformInfo.toString()),
+          child: Text('Running on: \n' + _platformInfo.toString() + "\n" + _storageDirectory),
         ),
       ),
     );
